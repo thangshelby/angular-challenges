@@ -5,17 +5,17 @@ import { Teacher } from '../model/teacher.model';
   providedIn: 'root',
 })
 export class TeacherStore {
-  public teachers = signal<Teacher[]>([]);
+  public teachers$ = signal<Teacher[]>([]);
 
-  addAll(teachers: Teacher[]) {
-    this.teachers.set(teachers);
+  addAll(teachers$: Teacher[]) {
+    this.teachers$.set(teachers$);
   }
 
   addOne(teacher: Teacher) {
-    this.teachers.set([...this.teachers(), teacher]);
+    this.teachers$.set([...this.teachers$(), teacher]);
   }
 
   deleteOne(id: number) {
-    this.teachers.set(this.teachers().filter((t) => t.id !== id));
+    this.teachers$.set(this.teachers$().filter((t) => t.id !== id));
   }
 }

@@ -1,22 +1,34 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { CityStore } from '../../data-access/city.store';
-import { FakeHttpService } from '../../data-access/fake-http.service';
+import {
+  FakeHttpService,
+  randomCity,
+} from '../../data-access/fake-http.service';
 import { CardType } from '../../model/card.model';
 import { CardComponent } from '../../ui/card/card.component';
+import { ListItemComponent } from '../../ui/list-item/list-item.component';
 
 @Component({
   selector: 'app-city-card',
   template: `
-    <app-card [list]="cities()" [type]="cardType" [template]="images">
-      <ng-template #images>
-        <img ngSrc="assets/img/student.webp" width="200" height="200" />
+    <app-card [list]="cities()" (add)="addCity()">
+      <img ngSrc="assets/img/city.png" width="200" height="200" />
+      <ng-template #rowRef let-city>
+        <app-list-item (delete)="deleteCity(city.id)">
+          {{ city.name }}
+        </app-list-item>
       </ng-template>
     </app-card>
   `,
   standalone: true,
-  imports: [CommonModule, CardComponent],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, CardComponent, ListItemComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CityCardComponent implements OnInit {
   private http = inject(FakeHttpService);
@@ -29,5 +41,13 @@ export class CityCardComponent implements OnInit {
     this.http.fetchCities$.subscribe((c) => {
       this.store.addAll(c);
     });
+  }
+
+  addCity() {
+    this.store.addOne(randomCity());
+  }
+
+  deleteCity(id: number) {
+    this.store.deleteOne(id);
   }
 }
