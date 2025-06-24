@@ -1,12 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { ButtonComponent } from '../button.component';
 
 @Component({
-  selector: 'app-dashboard',
-  imports: [],
+  selector: 'app-manager',
+  imports: [CommonModule, ButtonComponent, RouterLink],
   template: `
-    <p>dashboard for Manager works!</p>
+    <p>manager works!</p>
     <button app-button routerLink="/">Logout</button>
   `,
+  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManagerDashboardComponent {}
+export class ManagerComponent {}
