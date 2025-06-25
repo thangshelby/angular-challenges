@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, Input as RouterInput } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 
@@ -12,8 +12,16 @@ import { map } from 'rxjs';
     <div>User: {{ user$ | async }}</div>
   `,
 })
-export default class TestComponent {
+export default class TestComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
+
+  @RouterInput() testId!: number;
+  @RouterInput() user!: string;
+  @RouterInput() permission!: string;
+
+  ngOnInit() {
+    console.log(console.log(this.testId, this.user, this.permission));
+  }
 
   testId$ = this.activatedRoute.params.pipe(map((p) => p['testId']));
   permission$ = this.activatedRoute.data.pipe(map((d) => d['permission']));
