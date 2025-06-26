@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { take } from 'rxjs';
+import { BehaviorSubject, take } from 'rxjs';
 import { TopicModalComponent } from './topic-dialog.component';
 import { TopicService, TopicType } from './topic.service';
 
@@ -13,6 +13,8 @@ import { TopicService, TopicType } from './topic.service';
   selector: 'app-root',
   template: `
     <button (click)="openTopicModal()">Open Topic</button>
+
+    <button (click)="addTopic()">Add topic</button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -21,19 +23,23 @@ export class AppComponent implements OnInit {
   dialog = inject(MatDialog);
   topicService = inject(TopicService);
   topics: TopicType[] = [];
+  topics$ = new BehaviorSubject<TopicType[]>([]);
 
   ngOnInit(): void {
     this.topicService
       .fakeGetHttpTopic()
       .pipe(take(1))
-      .subscribe((topics) => (this.topics = topics));
+      .subscribe((topics) => this.topics$.next(topics));
   }
 
   openTopicModal() {
     this.dialog.open(TopicModalComponent, {
       data: {
-        topics: this.topics,
+        topics$: this.topics$,
       },
     });
+  }
+  addTopic() {
+    this.topics.push('Culture');
   }
 }

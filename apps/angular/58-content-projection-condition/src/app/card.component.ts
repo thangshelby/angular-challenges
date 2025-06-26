@@ -51,3 +51,10 @@ export class CardComponent implements OnInit {
     }
   }
 }
+
+// Vì sao?
+// Angular chỉ project nội dung (<ng-content>) một lần duy nhất, vào đúng vị trí trong template mà nó thấy đầu tiên trong quá trình biên dịch. Nếu bạn đặt <ng-content> trong các nhánh @if, Angular có thể bỏ qua việc chiếu nội dung, hoặc chiếu sai, tùy thuộc vào ngữ cảnh và phiên bản Angular.
+
+// Đúng rồi, bạn hiểu chính xác: Angular chỉ xử lý (project) nội dung vào <ng-content> một lần duy nhất trong vòng đời của component, tại thời điểm render ban đầu.
+
+// Nếu bạn muốn điều kiện hóa việc chiếu nội dung, bạn cần sử dụng các kỹ thuật khác như ng-template hoặc ng-container để kiểm soát việc hiển thị nội dung mà không làm ảnh hưởng đến quá trình chiếu nội dung ban đầu.

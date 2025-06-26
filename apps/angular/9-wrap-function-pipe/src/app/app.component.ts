@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
+import { WrapFncPipe } from './wrapFnc.pipe';
 
 @Component({
   selector: 'app-root',
+  imports: [WrapFncPipe],
   template: `
-    @for (person of persons; track person.name) {
-      {{ showName(person.name, $index) }}
-      {{ isAllowed(person.age, $first) }}
-    }
+    <div style="{display:flex;}" class="flex flex-col gap-3  p-4">
+      @for (person of persons; track person.name) {
+        <div class="mt-1">
+          {{ person | wrapFnc: $index }}
+        </div>
+      }
+    </div>
   `,
 })
 export class AppComponent {
@@ -15,17 +20,4 @@ export class AppComponent {
     { name: 'Jack', age: 15 },
     { name: 'John', age: 30 },
   ];
-
-  showName(name: string, index: number) {
-    // very heavy computation
-    return `${name} - ${index}`;
-  }
-
-  isAllowed(age: number, isFirst: boolean) {
-    if (isFirst) {
-      return 'always allowed';
-    } else {
-      return age > 25 ? 'allowed' : 'declined';
-    }
-  }
 }
