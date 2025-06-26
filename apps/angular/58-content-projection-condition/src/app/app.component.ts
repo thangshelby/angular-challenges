@@ -1,10 +1,18 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { CardComponent } from './card.component';
 
 @Component({
-  imports: [CardComponent],
+  imports: [CardComponent, NgTemplateOutlet],
   selector: 'app-root',
   template: `
+    <ng-template #myRef>This is testing ng-template</ng-template>
+
     <app-card>
       <div title>Card 1</div>
       <div message>Message 1</div>
@@ -12,6 +20,7 @@ import { CardComponent } from './card.component';
     <app-card [small]="true">
       <div title>Card 2</div>
       <div message>Message 2</div>
+      weqew
     </app-card>
   `,
   host: {
@@ -19,4 +28,8 @@ import { CardComponent } from './card.component';
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {}
+export class AppComponent {
+  count = 0;
+
+  @ViewChild('myRef', { read: TemplateRef }) templateRef!: TemplateRef<any>;
+}
