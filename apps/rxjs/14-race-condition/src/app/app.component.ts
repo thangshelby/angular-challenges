@@ -29,7 +29,10 @@ export class AppComponent implements OnInit {
     this.topicService
       .fakeGetHttpTopic()
       .pipe(take(1))
-      .subscribe((topics) => this.topics$.next(topics));
+      .subscribe((topics) => {
+        this.topics = topics;
+        this.topics$.next(topics);
+      });
   }
 
   openTopicModal() {
@@ -41,5 +44,6 @@ export class AppComponent implements OnInit {
   }
   addTopic() {
     this.topics.push('Culture');
+    this.topics$.next(this.topics);
   }
 }

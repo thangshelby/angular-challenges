@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 import { TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppComponent } from './app.component';
@@ -12,10 +14,9 @@ describe(AppComponent.name, () => {
     });
   });
 
-  it('renders', () => {
+  it('should render and show dialog content', () => {
     cy.mount(AppComponent);
-
     cy.get('button').click();
-    cy.get('ul li').should('have.length', '3');
+    cy.get('ul li').should('have.length', 3);
   });
 });
